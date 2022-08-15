@@ -1,0 +1,374 @@
+swagger: '2.0'
+info:
+  title: Subscriptions
+  x-ibm-name: subscriptions
+  version: 1.0.0
+  description: Instant Payment
+x-ibm-configuration:
+  cors:
+    enabled: true
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  servers:
+    - url: https://rgw.k8s.apis.ng/centric-platforms/uat/subscriptions
+      description: ''
+      type:
+        - Production
+        - Development
+basePath: /centric-platforms/uat/subscriptions
+paths:
+  /biller-groups:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched data
+              response_data:
+                - id: 1
+                  name: Disco
+                  slug: DISCO
+                - id: 2
+                  name: PaidTV
+                  slug: PAID_TV
+                - id: 3
+                  name: Airtime and Data
+                  slug: AIRTIME_AND_DATA
+                - id: 5
+                  name: Transport and Toll Payment
+                  slug: TRANSPORT_AND_TOLL_PAYMENT
+                - id: 6
+                  name: Collections
+                  slug: COLLECTIONS
+                - id: 7
+                  name: Betting and Lottery
+                  slug: BETTING_AND_LOTTERY
+  /billersByGroup:
+    parameters: []
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched data
+              response_data:
+                - id: 73
+                  name: Enugu Disco
+                  slug: ENUGU_DISCO
+                  groupId: 1
+                - id: 1
+                  name: Eko Disco
+                  slug: EKO_DISCO
+                  groupId: 1
+                - id: 74
+                  name: Abuja Disco
+                  slug: ABUJA_DISCO
+                  groupId: 1
+                - id: 75
+                  name: PortHarcourt Disco
+                  slug: PORTHARCOURT_DISCO
+                  groupId: 1
+                - id: 77
+                  name: IKEDC
+                  slug: IKEDC
+                  groupId: 1
+                - id: 78
+                  name: IBEDC
+                  slug: IBEDC
+                  groupId: 1
+                - id: 79
+                  name: KEDCO
+                  slug: KEDCO
+                  groupId: 1
+                - id: 83
+                  name: KAEDCO
+                  slug: KAEDCO
+                  groupId: 1
+                - id: 84
+                  name: JEDC
+                  slug: JEDC
+                  groupId: 1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          type: integer
+          description: '1'
+          required: true
+  /billersByGroupSlug:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched data
+              response_data:
+                - id: 73
+                  name: Enugu Disco
+                  slug: ENUGU_DISCO
+                  groupId: 1
+                - id: 1
+                  name: Eko Disco
+                  slug: EKO_DISCO
+                  groupId: 1
+                - id: 74
+                  name: Abuja Disco
+                  slug: ABUJA_DISCO
+                  groupId: 1
+                - id: 75
+                  name: PortHarcourt Disco
+                  slug: PORTHARCOURT_DISCO
+                  groupId: 1
+                - id: 77
+                  name: IKEDC
+                  slug: IKEDC
+                  groupId: 1
+                - id: 78
+                  name: IBEDC
+                  slug: IBEDC
+                  groupId: 1
+                - id: 79
+                  name: KEDCO
+                  slug: KEDCO
+                  groupId: 1
+                - id: 83
+                  name: KAEDCO
+                  slug: KAEDCO
+                  groupId: 1
+                - id: 84
+                  name: JEDC
+                  slug: JEDC
+                  groupId: 1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: groupslug
+          required: true
+          in: query
+          type: string
+          description: DISCO
+  /customer-lookup:
+    parameters: []
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched customer account details
+              response_data:
+                billerName: IKEDC
+                customer:
+                  firstName: PAWAKAD1
+                  lastName: ''
+                  customerName: PAWAKAD1
+                  meterNumber: '04040406714'
+                  canVend: true
+                  address: ''
+                  phoneNumber: '09018276627'
+                  emailAddress: ''
+                statusCode: '00'
+                minPayableAmount: 70
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          schema:
+            example:
+              customer_id: '04040406714'
+              biller_slug: IKEDC
+              product_name: IKEDC_POSTPAID
+            type: object
+  /packagesByBiller:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched data
+              response_data:
+                - id: 1
+                  name: Prepaid
+                  slug: OFFLINE_PREPAID
+                  amount: null
+                  billerId: 1
+                - id: 2
+                  name: Postpaid
+                  slug: OFFLINE_POSTPAID
+                  amount: null
+                  billerId: 1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          type: integer
+          required: true
+          description: '1'
+  /packagesByBillerSlug:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched packages under the billerSlug
+              response_data:
+                - id: 520
+                  name: IKEDC Prepaid
+                  slug: IKEDC_PREPAID
+                  amount: null
+                  billerId: 77
+                - id: 521
+                  name: IKEDC Postpaid
+                  slug: IKEDC_POSTPAID
+                  amount: null
+                  billerId: 77
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: billerslug
+          in: query
+          required: true
+          type: integer
+          description: IKEDC
+  /payment-lookup:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully fetched the transaction details
+              response_data:
+                billerName: IKEDC
+                customer:
+                  customerName: PAWAKAD1
+                  meterNumber: '04040406714'
+                  accountNumber: '04040406714'
+                  canVend: true
+                tokenData:
+                  stdToken:
+                    amount: '100.00'
+                    description: 'Purchased token for meterNo: 04040406714 // accountNo: '
+                    receiptNumber: '101998358'
+                    tariff: '30.23'
+                    units: '3.31'
+                    unitsType: Kwh
+                    value: '0000000000000000'
+                  bsstToken: {}
+                paymentReference: '533477576775'
+                vendStatus: CONFIRMED
+                narration: Successfully proccesed vend for the customer
+                statusCode: '00'
+                amount: 100
+                customerMessage: |-
+                  Your IKEDC Prepaid payment of NGN 100.00 for 04040406714 was successful.
+                  Token: 0000000000000000
+                  Units: 3.31
+                  REF: 101998358. Thank you for using the service. C'Gate
+                date: '2020-01-09 15:10:58.555'
+                confirmationTime: '2020-01-09 15:10:58.554'
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          required: true
+          in: body
+          schema:
+            example:
+              paymentReference: '533477576775'
+            type: object
+      consumes:
+        - application/json
+  /process-payment:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+            example:
+              response_code: '00'
+              response_message: Successfully processed the vend request
+              response_data:
+                packageName: IKEDC Postpaid
+                tokenData:
+                  stdToken:
+                    amount: '100.00'
+                    receiptNumber: '101998358'
+                    tariff: '30.23'
+                    units: '3.31'
+                    unitsType: Kwh
+                    value: '0000000000000000'
+                paymentReference: '533477576775'
+                transactionId: '101998358_77'
+                vendStatus: CONFIRMED
+                narration: Successfully proccesed vend for the customer
+                statusCode: '00'
+                amount: 100
+                convenienceFee: 0
+                customerMessage: |-
+                  Your IKEDC Prepaid payment of NGN 100.00 for 04040406714 was successful.
+                  Token: 0000000000000000
+                  Units: 3.31
+                  REF: 101998358. Thank you for using the service. C'Gate
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            example:
+              payment_reference: '533477576775'
+              customer_id: '04040406714'
+              package_slug: IKEDC_POSTPAID
+              channel: WEB
+              amount: 100
+              customer_name: Tester Example
+              phone_number: '23480812345'
+              email: tester.example@sample.com
+              account_number: '0012345678'
+            type: object
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: ClientId
+    x-key-type: client_id
+security:
+  - clientID: []
+schemes:
+  - https
+host: rgw.k8s.apis.ng

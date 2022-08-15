@@ -1,0 +1,802 @@
+swagger: '2.0'
+info:
+  title: Virtual Pay
+  x-ibm-name: virtual-pay
+  version: 1.0.0
+  description: Access Virtual Account and Virtual Payment APIs for Virtual wallet creation, transactions and transfer processing from Virtual Wallets and complete Customer onboarding requirements.
+  contact:
+    name: Bruno Otakhogbogie
+    email: bruno@xtradot.ng
+x-ibm-configuration:
+  cors:
+    enabled: true
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  application-authentication-source: []
+  servers:
+    - url: https://rgw.k8s.apis.ng/centric-platforms/uat/virtualpay
+      description: ''
+      type:
+        - Production
+        - Development
+basePath: /centric-platforms/uat/virtualpay
+paths:
+  /GenerateVirtualAccountNumber:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: GenerateVirtualAccNoResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              response_data:
+                title: response_data
+                type: object
+                properties:
+                  virtual_acct_no:
+                    title: virtual_acct_no
+                    type: string
+                  virtual_acct_name:
+                    title: virtual_acct_name
+                    type: string
+                  expiry_datetime:
+                    title: expiry_datetime
+                    type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              response_data:
+                virtual_acct_no: '1444624160'
+                virtual_acct_name: ACCESSHOMES- IHIYI OBA
+                expiry_datetime: ''
+      summary: Generate Virtual Account Number
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: GenerateVirtualAccNoRequest
+          in: body
+          schema:
+            title: GenerateVirtualAccNoRequest
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              customer_name:
+                title: customer_name
+                type: string
+              customer_email:
+                title: customer_email
+                type: string
+              customer_phone:
+                title: customer_phone
+                type: string
+              request_authorizer:
+                title: request_authorizer
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+              transaction_amount:
+                title: transaction_amount
+                type: string
+            example:
+              customer_id: ohuethelma@yahoo.com
+              merchant_id: ACCESSHOMES
+              customer_name: Ihiyi Oba
+              customer_email: ohuethelma@yahoo.com
+              customer_phone: '07051234567'
+              request_authorizer: Daniel Makinde
+              channel_code: TESTAPP
+              transaction_amount: ''
+  /FetchCustomerAccounts:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: FetchWalletsResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              response_data:
+                title: response_data
+                type: object
+                properties:
+                  accounts:
+                    title: accounts
+                    type: array
+                    items:
+                      title: accounts
+                      type: object
+                      properties:
+                        customer_name:
+                          title: customer_name
+                          type: string
+                        customer_id:
+                          title: customer_id
+                          type: string
+                        merchant_id:
+                          title: merchant_id
+                          type: string
+                        virtual_account_no:
+                          title: virtual_account_no
+                          type: string
+                        currency:
+                          title: currency
+                          type: string
+                        available_balance:
+                          title: available_balance
+                          type: string
+                        net_balance:
+                          title: net_balance
+                          type: string
+                        hold_balance:
+                          title: hold_balance
+                          type: string
+                    example:
+                      customer_name: ACCESSHOMES- IHIYI OBA
+                      customer_id: '07051234567'
+                      merchant_id: ACCESSHOMES
+                      virtual_account_no: '1444543133'
+                      currency: USD
+                      available_balance: 0
+                      net_balance: 0
+                      hold_balance: 0
+                example:
+                  response_code: '00'
+                  response_message: Successful Request
+                  response_data:
+                    accounts:
+                      - customer_name: ACCESSHOMES- IHIYI OBA
+                        customer_id: '07051234567'
+                        merchant_id: ACCESSHOMES
+                        virtual_account_no: '1444543133'
+                        currency: USD
+                        available_balance: 0
+                        net_balance: 0
+                        hold_balance: 0
+                      - customer_name: ACCESSHOMES- IHIYI OBA
+                        customer_id: '07051234567'
+                        merchant_id: ACCESSHOMES
+                        virtual_account_no: '1444543157'
+                        currency: GBP
+                        available_balance: 0
+                        net_balance: 0
+                        hold_balance: 0
+      summary: Generate Virtual Account
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: FetchWalletsRequest
+          in: body
+          schema:
+            title: customer_id
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              customer_id: '07051234567'
+              merchant_id: ACCESSHOMES
+              channel_code: TESTAPP
+      security:
+        - ClientId: []
+  /FetchCustomerDetails:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: FetchCustomerResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              response_data:
+                title: response_data
+                type: object
+                properties:
+                  customer_id:
+                    title: customer_id
+                    type: string
+                  customer_name:
+                    title: customer_name
+                    type: string
+                  virtual_account_no:
+                    title: virtual_account_no
+                    type: string
+                  virtual_account_name:
+                    title: virtual_account_name
+                    type: string
+                  customer_status:
+                    title: customer_status
+                    type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              response_data:
+                customer_id: '08137928609'
+                customer_name: ADEOLU ADESOKUN
+                virtual_account_no: '1444482564'
+                virtual_account_name: ADEOLU- ADEOLU ADESOKUN
+                customer_status: ENABLED
+      summary: FetchCustomerDetails
+      description: Fetch Customer Details
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: FetchCustomerRequest
+          in: body
+          schema:
+            title: FetchCustomerRequest
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              account_no:
+                title: account_no
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              customer_id: '08137928609'
+              merchant_id: UMSCOPE
+              account_no: ''
+              channel_code: TESTAPP
+  /GetAccountDetails:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: FetchWalletResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              response_data:
+                title: response_data
+                type: object
+                properties:
+                  customer_id:
+                    title: customer_id
+                    type: string
+                    properties:
+                      customer_id:
+                        title: customer_id
+                        type: string
+                  merchant_id:
+                    title: merchant_id
+                    type: string
+                  customer_name:
+                    title: customer_name
+                    type: string
+                  virtual_account_no:
+                    title: virtual_account_no
+                    type: string
+                  virtual_account_name:
+                    title: virtual_account_name
+                    type: string
+                  customer_phone:
+                    title: customer_phone
+                    type: string
+                  customer_email:
+                    title: customer_email
+                    type: string
+                  total_credit:
+                    title: total_credit
+                    type: string
+                  total_debit:
+                    title: total_debit
+                    type: string
+                  available_balance:
+                    title: available_balance
+                    type: string
+                  net_balance:
+                    title: net_balance
+                    type: string
+                  hold_balance:
+                    title: hold_balance
+                    type: string
+                  customer_status:
+                    title: customer_status
+                    type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              response_data:
+                customer_id: BIGDADDY@GMAIL.COM
+                merchant_id: UMSCOPE
+                customer_name: UMSCOPE- OLUWA TOBI
+                virtual_account_no: '1575907167'
+                virtual_account_name: UMSCOPE- OLUWA TOBI
+                customer_phone: '09012345678'
+                customer_email: bigdaddy@gmail.com
+                total_credit: 0
+                total_debit: 0
+                available_balance: 0
+                net_balance: 0
+                hold_balance: 0
+                customer_status: ENABLED
+      summary: Fetch Wallet Details
+      description: Fetch Wallet Details
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: FetchWalletRequest
+          in: body
+          schema:
+            title: Fetch Wallet Details
+            type: object
+            properties:
+              virtual_account_no:
+                title: virtual_account_no
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              virtual_account_no: '1575907167'
+              channel_code: APISNG
+              merchant_id: UMSCOPE
+  /SinglePost:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: WalletTransferResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              transaction_reference:
+                title: transaction_reference
+                type: string
+            example:
+              response_code: '00'
+              response_message: Successful request
+              transaction_reference: BRZ12337GDUJEDU83W1
+      summary: WalletTransfer
+      description: Wallet to Wallet Transfer
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: WalletTransferRequest
+          in: body
+          schema:
+            title: WalletTransferRequest
+            type: object
+            properties:
+              debit_merchant_id:
+                title: debit_merchant_id
+                type: string
+              credit_merchant_id:
+                title: credit_merchant_id
+                type: string
+              debit_customer_id:
+                title: debit_customer_id
+                type: string
+              credit_customer_id:
+                title: credit_customer_id
+                type: string
+              debit_virtual_account:
+                title: debit_virtual_account
+                type: string
+              credit_virtual_account:
+                title: credit_virtual_account
+                type: string
+              transaction_amount:
+                title: transaction_amount
+                type: string
+              transaction_narration:
+                title: transaction_narration
+                type: string
+              transaction_reference:
+                title: transaction_reference
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              debit_merchant_id: BREEZE_NGN
+              credit_merchant_id: BREEZE_NGN
+              debit_customer_id: '08094441382'
+              credit_customer_id: '07032755966'
+              debit_virtual_account: '1444448661'
+              credit_virtual_account: '1444444481'
+              transaction_amount: 200
+              transaction_narration: Testing
+              transaction_reference: BRZ12337GDUJEDU83W1
+              channel_code: APISNG
+  /HoldHistory:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: HoldHistoryResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              response_data:
+                title: response_data
+                type: object
+                properties:
+                  transactions:
+                    title: transactions
+                    type: array
+                    items:
+                      title: transactions
+                      type: object
+                      properties:
+                        action:
+                          title: action
+                          type: string
+                        action_remark:
+                          title: action_remark
+                          type: string
+                        merchant_id:
+                          title: merchant_id
+                          type: string
+                        customer_id:
+                          title: customer_id
+                          type: string
+                        virtual_account:
+                          title: virtual_account
+                          type: string
+                        amount:
+                          title: amount
+                          type: string
+                        hold_id:
+                          title: hold_id
+                          type: string
+                        msg_id:
+                          title: msg_id
+                          type: string
+                        block_no:
+                          title: block_no
+                          type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              response_data:
+                transactions:
+                  - action: RELEASE_FUNDS
+                    action_remark: Testing release
+                    merchant_id: ACCESSHOMES
+                    customer_id: '07032755966'
+                    virtual_account: '1444484348'
+                    amount: '500'
+                    hold_id: RENT
+                    msg_id: BRZ32426276728292928
+                    block_no: VPb47e58aa7ececb967
+                  - action: HOLD_FUNDS
+                    action_remark: Testing hold
+                    merchant_id: ACCESSHOMES
+                    customer_id: '07032755966'
+                    virtual_account: '1444484348'
+                    amount: '1000'
+                    hold_id: RENT
+                    msg_id: BRZ32426276728292926
+                    block_no: VP7ae9a9aa7ececb967
+      summary: Hold History
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: HoldHistoryRequest
+          in: body
+          schema:
+            title: HoldHistoryRequest
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              virtual_acc_no:
+                title: virtual_acc_no
+                type: string
+              hold_id:
+                title: hold_id
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              customer_id: '07032755966'
+              merchant_id: ACCESSHOMES
+              virtual_acc_no: '1444484348'
+              hold_id: RENT
+              channel_code: APISNG
+  /HoldFunds:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: HoldFundsResponse
+            properties:
+              HoldFundsResponse:
+                title: HoldFundsResponse
+                type: object
+                properties:
+                  response_code:
+                    title: response_code
+                    type: string
+                  response_message:
+                    title: response_message
+                    type: string
+                  block_reference:
+                    title: block_reference
+                    type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              block_reference: VP98968ea7e8ecb967
+      summary: HoldFunds
+      description: Hold Funds
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: HoldFundsRequest
+          in: body
+          schema:
+            title: HoldFundsRequest
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              virtual_account:
+                title: virtual_account
+                type: string
+              hold_id:
+                title: hold_id
+                type: string
+              hold_amount:
+                title: hold_amount
+                type: string
+              msg_id:
+                title: msg_id
+                type: string
+              hold_remark:
+                title: hold_remark
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              customer_id: '07032755966'
+              merchant_id: ACCESSHOMES
+              virtual_account: '1444484348'
+              hold_id: RENT
+              hold_amount: '1000'
+              msg_id: BRZ32426276728292920
+              hold_remark: Testing hold
+              channel_code: APISNG
+  /ReleaseFunds:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: ReleaseFundsResponse
+            properties:
+              response_code:
+                title: response_code
+                type: string
+              response_message:
+                title: response_message
+                type: string
+              release_reference:
+                title: release_reference
+                type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+              release_reference: VP3857958ea7edecb967
+      summary: ReleaseFundsRequest
+      description: Release Funds Request
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: ReleaseFundsRequest
+          in: body
+          schema:
+            title: ReleaseFundsRequest
+            type: object
+            properties:
+              customer_id:
+                title: customer_id
+                type: string
+              merchant_id:
+                title: merchant_id
+                type: string
+              virtual_account:
+                title: virtual_account
+                type: string
+              hold_id:
+                title: hold_id
+                type: string
+              release_amount:
+                title: release_amount
+                type: string
+              msg_id:
+                title: msg_id
+                type: string
+              release_remark:
+                title: release_remark
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              customer_id: '07032755966'
+              merchant_id: ACCESSHOMES
+              virtual_account: '1444484348'
+              hold_id: ''
+              release_amount: '1000'
+              msg_id: BRZ32426276728292910
+              release_remark: Testing release
+              channel_code: TESTAPP
+      security:
+        - ClientId: []
+  /MakePayment:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: object
+            title: MakePaymentResponse
+            properties:
+              MakePaymentResponse:
+                title: MakePaymentResponse
+                type: object
+                properties:
+                  response_code:
+                    title: response_code
+                    type: string
+                  response_message:
+                    title: response_message
+                    type: string
+            example:
+              response_code: '00'
+              response_message: Successful Request
+      summary: Make Payment
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: MakePaymentRequest
+          in: body
+          schema:
+            title: MakePaymentRequest
+            type: object
+            properties:
+              debit_merchant_id:
+                title: debit_merchant_id
+                type: string
+              debit_customer_id:
+                title: debit_customer_id
+                type: string
+              credit_account:
+                title: credit_account
+                type: string
+              credit_bank_code:
+                title: credit_bank_code
+                type: string
+              debit_virtual_account:
+                title: debit_virtual_account
+                type: string
+              transaction_amount:
+                title: transaction_amount
+                type: string
+              transaction_narration:
+                title: transaction_narration
+                type: string
+              transaction_reference:
+                title: transaction_reference
+                type: string
+              channel_code:
+                title: channel_code
+                type: string
+            example:
+              debit_merchant_id: ACCESSHOMES
+              debit_customer_id: '07032755966'
+              credit_account: '0760261888'
+              credit_bank_code: '044'
+              debit_virtual_account: '1444484348'
+              transaction_amount: 200
+              transaction_narration: Testing
+              transaction_reference: BRZ12337GDUJEDU8378W5
+              channel_code: APISNG
+securityDefinitions:
+  ClientId:
+    type: apiKey
+    name: ClientId
+    x-key-type: client_id
+    in: header
+security:
+  - ClientId: []
+schemes:
+  - https
+host: rgw.k8s.apis.ng
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: virtualpay

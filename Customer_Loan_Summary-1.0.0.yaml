@@ -1,0 +1,217 @@
+swagger: '2.0'
+info:
+  x-ibm-name: customer-loan-summary
+  title: Customer Loan Summary
+  version: 1.0.0
+  description: Get Customer Loan summary by passing the Customer ID. It is assumed that the Customer ID is already known by the consuming Application.
+  contact:
+    name: Bruno Otakhogbogie
+    email: bruno@xtradot.ng
+    url: https://www.xtradot.ng
+schemes:
+  - https
+host: rgw.k8s.apis.ng
+basePath: /centric-platforms/uat
+consumes:
+  - application/xml
+  - application/json
+produces:
+  - application/xml
+  - application/json
+securityDefinitions:
+  clientIdHeader:
+    type: apiKey
+    in: header
+    name: ClientId
+    x-key-type: client_id
+security:
+  - clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  phase: realized
+  type: rest
+  servers:
+    - url: https://rgw.k8s.apis.ng/centric-platforms/uat
+      description: ''
+      type:
+        - Production
+        - Development
+paths:
+  /GetLoanSummaryByCustomerID:
+    post:
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/GetLoanSummaryResponse'
+      tags:
+        - GetLoanSummary
+      summary: Post Customer ID to get Customer Loan summary by passing the Customer ID. It is assumed that the Customer ID is already known by the consuming Application.
+      parameters:
+        - name: GetLoanSummary
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/GetLoanSummaryRequest'
+          description: GetLoanSummary
+definitions:
+  GetLoanSummaryResponse:
+    properties:
+      ResponseCode:
+        type: string
+        example: '00'
+        description: Response Code
+      ResponseMessage:
+        type: string
+        example: Successful
+        description: Response Message
+      loanstmtbycustomernoresp:
+        $ref: '#/definitions/LoanStatementArray'
+        description: Loan Statement Details
+    additionalProperties: false
+    description: Customer Loan Summary
+  LoanStatementResponse:
+    properties:
+      LoanAccountNumber:
+        type: string
+        example: 099CTLA153010003
+        description: Loan Account Number
+      CustomerNo:
+        type: integer
+        description: Customer ID
+        example: '000000012'
+        format: int32
+      BranchCode:
+        type: integer
+        example: '099'
+        description: Customer Branch
+        format: int32
+      ProductCode:
+        type: string
+        description: Access Bank Product
+        example: CTLA
+      ProductCategory:
+        type: string
+        example: CORPORATE
+        description: Product Category
+      ProductDescription:
+        type: string
+        example: CORPORATE TERM LOANS AMORTIZED
+        description: Product Description
+      CustomerName:
+        type: string
+        description: Customer Name
+        example: MUSTAPHA  ZUBAIRU
+      DomiciliaryAddress:
+        type: string
+        description: Domiciliary Address
+        example: RAPHAEL OKONKWO COMP,UMUEZEOKAMZIM VILLAGE,NNEWI,  NNEWI
+      CustomerAddress:
+        type: string
+        description: Customer Address
+        example: RAPHAEL OKONKWO COMP,UMUEZEOKAMZIM VILLAGE,NNEWI,  NNEWI,NG
+      OriginalStartDate:
+        type: string
+        description: Original Start Date
+        example: '2015-10-28 00:00:00'
+        format: date-time
+      BookDate:
+        type: string
+        description: Book Date
+        example: '2015-10-28 00:00:00'
+        format: date-time
+      ValueDate:
+        type: string
+        description: Value Date
+        format: date-time
+        example: '2015-10-28 00:00:00'
+      MaturityDate:
+        type: string
+        description: Maturity Date
+        example: '2025-10-28 00:00:00'
+        format: date-time
+      LoanTenor:
+        type: integer
+        example: '3653'
+        format: int32
+        description: Loan Tenor
+      LoanStatus:
+        type: string
+        description: Loan Status
+        example: Active
+      CurrencyCode:
+        type: string
+        description: Currency Code
+        example: NGN
+      AmountFinanced:
+        type: string
+        description: Amount Financed
+        example: '1.0E7'
+      ApplicantName:
+        type: string
+        description: Applicant Name
+        example: MUSTAPHA  ZUBAIRU
+      TotalPrincipalOutstanding:
+        type: string
+        description: Total Principal Outstanding
+        example: '1.0E7'
+      TotalInterestOutstanding:
+        type: string
+        description: Total Interest Outstanding
+        example: '1.201535821E7'
+      PrincipalOverDue:
+        type: string
+        description: Principal OverDue
+        example: '2641572.46'
+      PrincipalNotDue:
+        type: string
+        description: Principal Not Due
+        example: '7358427.54'
+      InterestNotDue:
+        type: string
+        description: Interest Not Due
+        example: '4199662.79'
+      InterestOverDue:
+        type: string
+        description: Interest Over Due
+        example: '7815695.42'
+      NextPrincipalDue:
+        type: string
+        description: Next Principal Due
+        example: '68158.7'
+      NextInterestDue:
+        type: string
+        description: Next Interest Due
+        example: '115302.14'
+      PrincipalPaid:
+        type: string
+        description: Principal Paid
+        example: '0'
+      InterestPaid:
+        type: string
+        description: Interest Paid
+        example: '0'
+      InterestPenaltyPaid:
+        type: string
+        description: Interest Penalty Paid
+        example: '0'
+    additionalProperties: false
+    description: Customer Loan Statement
+  LoanStatementArray:
+    type: array
+    items:
+      $ref: '#/definitions/LoanStatementResponse'
+    description: Array of Loan Statements
+  GetLoanSummaryRequest:
+    properties:
+      customer_no:
+        type: string
+        description: Customer ID
+        example: '000000012'
+    additionalProperties: false
+    required:
+      - customer_no
+tags: []

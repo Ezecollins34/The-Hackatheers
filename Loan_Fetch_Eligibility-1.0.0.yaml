@@ -1,0 +1,160 @@
+swagger: '2.0'
+info:
+  x-ibm-name: loan-fetch-eligibility
+  title: Loan Fetch Eligibility
+  version: 1.0.0
+  description: Check Customer Eligibility To Receive PayDay Loan, request PayDay loan and other related Access Bank PayDay Loan request & management APIs.
+  contact:
+    name: Bruno Otakhogbogie
+    email: bruno@xtradot.ng
+    url: https://www.xtradot.ng
+schemes:
+  - https
+host: rgw.k8s.apis.ng
+basePath: /centric-platforms/uat
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  ClientID:
+    type: apiKey
+    in: header
+    x-key-type: client_id
+    name: ClientId
+security:
+  - ClientID: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  phase: realized
+  type: rest
+  servers:
+    - url: https://rgw.k8s.apis.ng/centric-platforms/uat
+      description: ''
+      type:
+        - Production
+        - Development
+paths:
+  /FetchEligibility:
+    post:
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/FetchEligibilityResponse'
+      tags:
+        - RequestLoan
+      summary: Request PayDay Loan
+      parameters:
+        - name: FetchEligibility
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/FetchEligibility'
+          description: Fetch PayDay Loan Eligibility
+definitions:
+  FetchEligibility:
+    properties:
+      request_id:
+        type: string
+        description: Request ID
+        example: BW02072018001
+      phone_number:
+        type: string
+        description: Phone Number
+        example: '08038087624'
+      module_name:
+        type: string
+        description: Module Name
+        example: REM
+      created_date:
+        type: string
+        description: Date Of Request
+        example: '2018-07-02T10:00:09.9766194+02:00'
+    additionalProperties: false
+    required:
+      - request_id
+      - phone_number
+      - module_name
+      - created_date
+  FetchEligibilityResponse:
+    properties:
+      tenor:
+        type: string
+        example: ''
+        description: Tenor
+      productName:
+        type: string
+        example: ''
+        description: Product Name
+      request_id:
+        description: Request ID
+        example: BW02072018001
+        type: string
+      amount:
+        type: string
+        description: Amount
+        example: '1000'
+      lastSalaryDate:
+        type: string
+        description: Last Salary Date
+      response_id:
+        type: string
+        description: Response ID
+        example: b84bb42a-a0c9-4926-b60c-0dd3d273d998
+      avg_salary:
+        type: string
+        description: Average Salary
+        example: ''
+      hasOptin:
+        type: string
+        description: Has Optin?
+        example: 'N'
+      last_sal_amount:
+        type: string
+        description: Last Salary Amount
+      sal_account:
+        type: string
+        description: Salary Account
+        example: '0689658501'
+      MinimumAmount:
+        type: string
+        description: Minimum Amount
+        example: '0'
+      interest:
+        type: string
+        description: Interest
+        example: '4'
+      maintenance:
+        type: string
+        description: Maintenance
+        example: '1'
+      module:
+        type: string
+        description: Module
+      TotalDelinquentAmount:
+        type: string
+        description: Total Delinquent Amount
+      DelinquentLoanCount:
+        type: string
+        description: Deliquent Loan Count
+      response_descr:
+        type: string
+        description: Response Description
+        example: USSD_ACCESS
+      response_code:
+        type: string
+        description: Response Code
+        example: '00'
+      full_description:
+        type: string
+        description: Full Description
+      DisplayMessage:
+        type: string
+        description: Display Message
+    additionalProperties: false
+    description: Validate Customer Eligibility To Request PayDay Loan
+tags: []

@@ -1,0 +1,155 @@
+swagger: '2.0'
+info:
+  x-ibm-name: loan-request
+  title: Loan Request
+  version: 1.0.0
+  description: Request PayDay Loan via Access Bank API Banking.
+  contact:
+    name: Bruno Otakhogbogie
+    email: bruno@xtradot.ng
+    url: https://www.xtradot.ng
+schemes:
+  - https
+host: rgw.k8s.apis.ng
+basePath: /centric-platforms/uat
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  ClientID:
+    type: apiKey
+    in: header
+    name: ClientId
+    x-key-type: client_id
+security:
+  - ClientID: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+    policy: []
+  phase: realized
+  type: rest
+  application-authentication-source: []
+  servers:
+    - url: https://rgw.k8s.apis.ng/centric-platforms/uat
+      description: ''
+      type:
+        - Production
+        - Development
+paths:
+  /RequestLoan:
+    post:
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/RequestLoanResponse'
+      tags:
+        - RequestLoan
+      summary: Request PayDay Loan
+      parameters:
+        - name: RequestLoan
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/RequestLoan'
+          description: Request PayDay Loan
+      security: []
+definitions:
+  RequestLoan:
+    properties:
+      request_id:
+        type: string
+        description: Request ID
+        example: BW02072018001
+      phone_number:
+        type: string
+        description: Phone Number
+        example: '08133184187'
+      amount:
+        type: string
+        description: Amount
+        example: '1000'
+      module_name:
+        type: string
+        description: Module Name
+        example: REM
+      transNumber:
+        type: string
+        description: Transaction Number
+        example: '1'
+    additionalProperties: false
+    required:
+      - request_id
+      - phone_number
+      - amount
+      - module_name
+      - transNumber
+  RequestLoanResponse:
+    properties:
+      loanref:
+        type: string
+        example: ''
+        description: Loan Reference
+      response_id:
+        type: string
+        example: cf80f371-3314-4952-b0b8-7d22560d8ce5
+        description: Response ID
+      request_id:
+        description: Request ID
+        example: BW02072018001
+        type: string
+      customer_id:
+        type: string
+        description: Customer ID
+      loan_accountnumber:
+        type: string
+        description: Loan Account Number
+      phone:
+        type: string
+        description: Phone
+        example: '08133184187'
+      currency:
+        type: string
+        description: Currency
+        example: NGN
+      amount:
+        type: string
+        description: Amount
+        example: '1000'
+      disbursement_date:
+        type: string
+        description: Disbursement Date
+        example: '2018-07-02T13:13:53.2038721+01:00'
+      modulename:
+        type: string
+        description: Module Name
+      IsThirdParty:
+        type: string
+        description: Is Third Party?
+        example: 'N'
+      hasOptin:
+        type: string
+        description: Has Optin?
+        example: 'Y'
+      IsAccessBankCustomer:
+        type: boolean
+        description: Is the Customer an Access Bank Customer?
+        example: 'false'
+      response_descr:
+        type: string
+        description: Response Description
+        example: Request Queued Successfully
+      response_code:
+        type: string
+        description: Response Code
+        example: '00'
+      full_description:
+        type: string
+        description: Full Description
+    additionalProperties: false
+    description: Response Message To Loan Request
+tags: []
